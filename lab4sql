@@ -1,0 +1,61 @@
+--Lab 4
+--Arun Agarwal
+
+--Q1:
+SELECT c.category_id, c.category_name, p.product_id, p.product_name
+FROM categories_mgs c INNER JOIN products_mgs p
+    ON c.category_id = p.category_id
+ORDER BY c.category_id ASC;
+
+--Q2:
+SELECT c.category_id, c.category_name, p.product_id, p.product_name
+FROM categories_mgs c FULL JOIN products_mgs p
+    ON c.category_id = p.category_id
+ORDER BY c.category_id ASC;
+
+--Q3:
+SELECT c.category_id, c.category_name
+FROM categories_mgs c LEFT JOIN products_mgs p
+    ON c.category_id = p.category_id
+WHERE product_id IS NULL
+ORDER BY c.category_id ASC;
+
+--Q4:
+    SELECT customer_id, first_name, last_name
+    FROM customers_mgs
+    WHERE email_address LIKE '%@gmail.com'
+INTERSECT
+    SELECT customer_id, first_name, last_name
+    FROM customers_mgs
+    WHERE shipping_address_id = billing_address_id
+    ORDER BY customer_id ASC;
+
+--Q5:
+    SELECT customer_id, first_name, last_name
+    FROM customers_mgs
+    WHERE shipping_address_id = billing_address_id
+MINUS
+    SELECT customer_id, first_name, last_name
+    FROM customers_mgs
+    WHERE email_address LIKE '%@gmail.com'
+    ORDER BY customer_id ASC;
+
+--Q6:
+    SELECT customer_id, first_name, last_name
+    FROM customers_mgs
+    WHERE shipping_address_id = billing_address_id
+UNION
+    SELECT customer_id, first_name, last_name
+    FROM customers_mgs
+    WHERE email_address LIKE '%@gmail.com'
+    ORDER BY customer_id ASC;
+
+--Q7:
+    SELECT order_id, customer_id, 'Shipped' AS ship_status, order_date
+    FROM orders_mgs
+    WHERE ship_date IS NOT NULL
+UNION
+    SELECT order_id, customer_id, 'NOT Shipped' AS ship_status, order_date
+    FROM orders_mgs
+    WHERE ship_date IS NULL
+    ORDER BY order_date ASC;

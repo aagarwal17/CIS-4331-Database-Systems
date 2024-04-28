@@ -1,0 +1,50 @@
+--Lab 3
+--Arun Agarwal
+
+--Q1:
+SELECT customer_id, line1, line2, city, state
+FROM addresses_mgs
+WHERE line1 LIKE '%wood%'
+ORDER BY state, city ASC;
+
+--Q2: 
+SELECT first_name, last_name, email_address
+FROM customers_mgs
+WHERE first_name LIKE '__r%';
+
+--Q3:
+SELECT product_name, list_price, category_name
+FROM products_mgs p JOIN categories_mgs c
+ON p.category_id = c.category_id
+ORDER BY category_name, product_name ASC;
+
+--Q4:
+SELECT first_name, last_name, line1, line2, city, state, zip_code
+FROM customers_mgs c JOIN addresses_mgs a
+ON c.customer_id = a.customer_id
+WHERE email_address = 'heatheresway@mac.com';
+
+--Q5:
+SELECT first_name, last_name, line1, line2, city, state, zip_code
+FROM customers_mgs c JOIN addresses_mgs a
+ON c.billing_address_id = a.address_id
+ORDER BY state, city ASC;
+
+--Q6:
+SELECT first_name, last_name, TO_CHAR(order_date, 'MM/DD/YYYY') AS order_date, TO_CHAR(ship_date, 'MM/DD/YYYY') AS ship_date
+FROM customers_mgs c JOIN orders_mgs o
+ON c.customer_id = o.customer_id;
+
+--Q7:
+SELECT email_address, ship_date, product_id, (item_price-discount_amount) AS actual_price
+FROM customers_mgs c JOIN orders_mgs o
+ON c.customer_id = o.customer_id
+JOIN order_items_mgs i
+ON o.order_id = i.order_id;
+
+--Q8:
+SELECT DISTINCT p1.product_code, p1.product_name, p1.discount_percent
+FROM products_mgs p1 JOIN products_mgs p2
+ON p1.discount_percent = p2.discount_percent
+WHERE p1.product_code <> p2.product_code
+ORDER BY product_code ASC;
